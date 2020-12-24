@@ -270,19 +270,19 @@ echo "${address} ${name}" | sudo tee -a /etc/hosts
 # vault_2 adds some test data to demonstrate that the cluster is connected to
 #   the same data.
 sleep 5
-logger "Initializing Vault and storing results for ubuntu user"
+logger "Initializing Vault and storing results for centos user"
 vault operator init -recovery-shares 1 -recovery-threshold 1 -format=json > /tmp/key.json
-sudo chown ubuntu:ubuntu /tmp/key.json
+sudo chown centos:centos /tmp/key.json
 
-logger "Saving root_token and recovery key to ubuntu user's home"
+logger "Saving root_token and recovery key to centos user's home"
 VAULT_TOKEN=$(cat /tmp/key.json | jq -r ".root_token")
-echo $VAULT_TOKEN > /home/ubuntu/root_token
-sudo chown ubuntu:ubuntu /home/ubuntu/root_token
-echo $VAULT_TOKEN > /home/ubuntu/.vault-token
-sudo chown ubuntu:ubuntu /home/ubuntu/.vault-token
+echo $VAULT_TOKEN > /home/centos/root_token
+sudo chown centos:centos /home/centos/root_token
+echo $VAULT_TOKEN > /home/centos/.vault-token
+sudo chown centos:centos /home/centos/.vault-token
 
-echo $(cat /tmp/key.json | jq -r ".recovery_keys_b64[]") > /home/ubuntu/recovery_key
-sudo chown ubuntu:ubuntu /home/ubuntu/recovery_key
+echo $(cat /tmp/key.json | jq -r ".recovery_keys_b64[]") > /home/centos/recovery_key
+sudo chown centos:centos /home/centos/recovery_key
 
 logger "Setting VAULT_ADDR and VAULT_TOKEN"
 export VAULT_ADDR=http://127.0.0.1:8200
